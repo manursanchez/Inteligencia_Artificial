@@ -1,16 +1,16 @@
-/*Práctica Teoría de los lenguajes de programación 2016/2017
-Algoritmo del viaje del caballo
-Manuel Rodríguez Sánchez*
-CA-MOTRIL*/
+/*
+Algoritmo del salto del caballo
+Manuel RodrÃ­guez SÃ¡nchez
+**/
 
-/* Comprueba si en un nodo del espacio de búsqueda hay o no una
-solución, es decir, si contiene o no un camino completo*/
+/* Comprueba si en un nodo del espacio de bÃºsqueda hay o no una
+soluciÃ³n, es decir, si contiene o no un camino completo*/
 fullPath(Node) :- es_completo(Node).
 
-/* Comprueba que en el tablero (Board) de tamaño N, se puede ir a la
-casilla s(F,R), porque está en el tablero (inBoard) y está libre
-(freeSquare). Además coloca (pone a false esa posición en Board con
-visitSquare) el caballo en la posición s(F,R), construyendo el nuevo
+/* Comprueba que en el tablero (Board) de tamaÃ±o N, se puede ir a la
+casilla s(F,R), porque estÃ¡ en el tablero (inBoard) y estÃ¡ libre
+(freeSquare). AdemÃ¡s coloca (pone a false esa posiciÃ³n en Board con
+visitSquare) el caballo en la posiciÃ³n s(F,R), construyendo el nuevo
 tablero(BoardNuevo)*/
 validSquare(N,s(F,R), Board, NewBoard) :- inBoard(N,s(F,R)),freeSquare(s(F,R),Board),visitSquare(s(F,R),Board,NewBoard).
 
@@ -18,34 +18,34 @@ validSquare(N,s(F,R), Board, NewBoard) :- inBoard(N,s(F,R)),freeSquare(s(F,R),Bo
 tablerodado(Board)*/
 visitSquare(s(F,R), Board, BoardSol):- visitF(s(F,R), Board, BoardSol).
 
-% Comprobar si la casilla s(F,R) está dentro de un tablero de tamaño N
+% Comprobar si la casilla s(F,R) estÃ¡ dentro de un tablero de tamaÃ±o N
 inBoard(N,s(F,R)):-  N>0, F>0, R>0, N>=F, N>=R.
 
 % Comprueba que la casilla no ha sido visitada
 freeSquare(s(F,R), Board) :- valorF(1, s(F,R),Board,Valor),Valor==true.
 
-/* Nodo inicial a partir del tamaño del tablero, N, y
+/* Nodo inicial a partir del tamaÃ±o del tablero, N, y
 una casilla desde la que el caballo inicia su recorrido, s(F,R),en un
-tablero vacío*/
+tablero vacÃ­o*/
 initBoard(N, s(F,R), Node) :- tableroVacio(N, Board), validSquare(N,s(F,R),Board,NewBoard),createNode(node(N,1,NewBoard,s(F,R),[s(F,R)]),Node).
 
-% Predicado principal. Ejecución
+% Predicado principal. EjecuciÃ³n
 % ?-knightTravel(Tamano_tablero,s(fila,columna))
 knightTravel(N,s(F,R)):- initBoard(N,s(F,R),node(N,1,Board,s(F,R),[s(F,R)])), recorrerBT(node(N,1,Board,s(F,R),[s(F,R)])); solucion(node(0,0,[[]],s(0,0),[])).
 
-% Recorrido con vuelta atrás
+% Recorrido con vuelta atrÃ¡s
 recorrerBT(Node):- fullPath(Node),!, solution(Node).
 recorrerBT(Node):- jump(Node,NNuevo), recorrerBT(NNuevo).
 
 solucion(node(_,0,_,_,[])):- writeln([]).
 solution(node(_,_,_,_,PInverse)):- reverse(PInverse, Path), writeln(Path).
 
-% Construye un tablero vacío
+% Construye un tablero vacÃ­o
 tableroVacio(N,Board):- ct_aux(1,N,Board).
 ct_aux(M,N,[]):- M > N, !.
 ct_aux(M,N,[File|RF]):-  columnaVacia(N,File), M1 is M+1, ct_aux(M1,N,RF).
 
-% Construye columnas vacías
+% Construye columnas vacÃ­as
 columnaVacia(1,[true]):-!.
 columnaVacia(N,[true|CV]):- N1 is N-1, columnaVacia(N1,CV).
 
@@ -71,7 +71,7 @@ visitR(_,[],[]).
 visitR(1, [_|RR], [false|RR1]):- visitR(0, RR, RR1),!.
 visitR(R,[C|RR], [C|RR1]):- NextR is R-1, visitR(NextR,RR,RR1).
 
-% Añade una casilla al final de la lista de casillas
+% AÃ±ade una casilla al final de la lista de casillas
 addPath(P, LP , [P|LP]).
 
 % Genera un salto
