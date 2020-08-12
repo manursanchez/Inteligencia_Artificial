@@ -1,2 +1,2 @@
 # Inteligencia_Artifical
-Cálculos correspondientes a un solo paso de una generación en un problema de optimización de una función dada, resuelto mediante un algoritmo genético sencillo, para dos variantes.
+Diversos trabajos universitarios sobre inteligencia artifical, algoritmos genéticos y algoritmos de aprendizaje automático.
