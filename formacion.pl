@@ -1,8 +1,7 @@
 /*************************************************************
-Base de conocimiento de un plan de formación.
-Actividad práctica II, Fundamentos de Inteligencia Artificial
-Curso: 2015-2016
-Autor: Manuel Rodríguez Sánchez
+Base de conocimiento de un plan de formaciÃ³n.
+Actividad prÃ¡ctica II, Fundamentos de Inteligencia Artificial
+Autor: Manuel RodrÃ­guez SÃ¡nchez
 ***************************************************************/
 
 
@@ -25,7 +24,7 @@ esDocente(manuel).
 esDocente(sonia).
 esDocente(ismael).
 
-%Cursos del plan de formación
+%Cursos del plan de formaciÃ³n
 
 esCurso(excel). /*excel es un curso*/
 esCurso(contabilidad).
@@ -45,7 +44,7 @@ curso(contabilidad,ismael).
 curso(rrhh,juan).
 curso(comunicacion,sonia).
 
-% Número de grupo. Cada accion formativa se identifica por un
+% NÃºmero de grupo. Cada accion formativa se identifica por un
 % codigo de grupo, y esto significa que un curso puede tener varias
 % ediciones, identificando estas por su codigo de grupo.
 % numeroGrupo(codigoGrupo, curso).
@@ -71,7 +70,7 @@ presupuestoCurso(7,175).
 presupuestoCurso(8,275).
 presupuestoCurso(9,400).
 
-% Número de alumnos por cada grupo previsto.
+% NÃºmero de alumnos por cada grupo previsto.
 % numeroAlumnos(codigoGrupo,numerodeAlumnos)
 numeroAlumnos(1,15). /*el grupo 1 tiene 15 alumnos*/
 numeroAlumnos(2,12).
@@ -84,16 +83,16 @@ numeroAlumnos(8,11).
 numeroAlumnos(9,20).
 
 
-% ------------BLOQUE 2 - MENÚ DE OPCIONES PARA HACER LAS PREGUNTAS A LA BC------------------
+% ------------BLOQUE 2 - MENÃš DE OPCIONES PARA HACER LAS PREGUNTAS A LA BC------------------
 
-%Esta regla limpia la pantalla y ejecuta el menú de opciones
+%Esta regla limpia la pantalla y ejecuta el menÃº de opciones
 iniciarprograma:-limpiaPantalla,programa.
 
 %Borrar todo lo que hay en la pantalla
 limpiaPantalla:-write('\033[2J').
 
-%Menú de opciones
-programa:-write('\nMenú de opciones:\n\n'),
+%MenÃº de opciones
+programa:-write('\nMenÃº de opciones:\n\n'),
 		write('	1-Precio por alumno de un curso previsto.\n'),
 		write('	2-Verificar un curso y su especialidad\n'),
 		write('	3-Verificar curso que imparte un docente\n'),
@@ -104,13 +103,13 @@ programa:-write('\nMenú de opciones:\n\n'),
 		write('	8-Comprobar que un curso se ha ejecutado\n'),
 		write('	9-Comprobar que un curso se puede desarrollar\n'),
 		write('	10-Salir\n\n'),
-		write('Selecciona mediante su número, la opción que se desee ejecutar: '),
+		write('Selecciona mediante su nÃºmero, la opciÃ³n que se desee ejecutar: '),
 	read(Opcion),limpiaPantalla,opcion(Opcion).
 
 %--------------------------------------------------------------------------------------------
-% En esta opción, recogemos el nombre del curso, y vemos cuanto es su
+% En esta opciÃ³n, recogemos el nombre del curso, y vemos cuanto es su
 % coste por alumno. Divide el total del presupuesto del curso entre el
-% numero de alumnos de ese curso o edición. Cada curso (NO GRUPO) tiene
+% numero de alumnos de ese curso o ediciÃ³n. Cada curso (NO GRUPO) tiene
 % un precio por alumno.
 opcion(1):-!,write('\nNombre del curso: '),
 	read(C),nl,
@@ -157,11 +156,11 @@ opcion(8):-!,write('\nNumero de grupo: '),
 opcion(9):-!,write('\nIntroduce el curso: '),
 	read(Curso),(desarrolloCurso(Curso)->write('El curso puede ser ejecutado\n\n');write('Los datos introducidos no son correctos\n\n')),programa.
 
-%Si seleccionamos la opción 10, termina la ejecucion del programa
+%Si seleccionamos la opciÃ³n 10, termina la ejecucion del programa
 opcion(10):-!,write('\nPrograma finalizado\n').
 
-% Si no se selecciona ninguna opción, se pedira nuevamente una entrada
-opcion(_):-!,write('\nLa opción no es correcta o no existen datos, inténtelo de nuevo.\n\n'),programa.
+% Si no se selecciona ninguna opciÃ³n, se pedira nuevamente una entrada
+opcion(_):-!,write('\nLa opciÃ³n no es correcta o no existen datos, intÃ©ntelo de nuevo.\n\n'),programa.
 
 % ---------------------------- BLOQUE 3 - REGLAS ------------------------------------
 
@@ -172,18 +171,18 @@ opcion(_):-!,write('\nLa opción no es correcta o no existen datos, inténtelo de 
 esPlanificado(C):-planifica(tecnicoFormacion,C),imparteCurso(C,_),esCurso(C).
 
 %viene de la opcion 4
-insertarDocente(D):-(assert(esDocente(D))->write('Docente insertado correctamente\n');write('Error en datos.Operación no realizada\n')).
+insertarDocente(D):-(assert(esDocente(D))->write('Docente insertado correctamente\n');write('Error en datos.OperaciÃ³n no realizada\n')).
 %viene de la opcion 5
 eliminarDocente(D):-(retract(esDocente(D))->write('Docente eliminado correctamente\n');write('No existe el docente\n')).
 
-% Un curso se habrá ejecutado si ha tenido presupuesto y alumnos.Opcion
+% Un curso se habrÃ¡ ejecutado si ha tenido presupuesto y alumnos.Opcion
 % 8
 cursoEjecutado(G,_):-presupuestoCurso(G,_),numeroAlumnos(G,_).
 
-%¿Pertenece el curso C a la especialidad E? Llamada desde la opcion 7
+%Â¿Pertenece el curso C a la especialidad E? Llamada desde la opcion 7
 especialidadCurso(C,E):-curso(C,D),docente(D,E).
 
-%¿Que curso es impartido por un docente? Llamada desde la opcion 3
+%Â¿Que curso es impartido por un docente? Llamada desde la opcion 3
 imparteCurso(C,D):-curso(C,D).
 
 % El tecnico de formacion planifica un curso, siempre que el curso C
@@ -199,7 +198,7 @@ organiza(director,D):-esDocente(D).
 % organiza el docente que ha de impartirlo. Llamada por la opcion 9
 desarrolloCurso(C):-esPlanificado(C),imparteCurso(C,D),organiza(director,D).
 
-% Listamos los grupos de cursos ejecutados. Aquí se usa recursividad.
+% Listamos los grupos de cursos ejecutados. AquÃ­ se usa recursividad.
 % Es llamada por la opcion 6
 listaCursos(G):-(G\==0->numeroGrupo(G,C),write('Grupo: '),write(G),write(' Curso: '),write(C),nl,G1 is G-1,listaCursos(G1);write('Se han listado todos los grupos\n')).
 
